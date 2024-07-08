@@ -158,7 +158,11 @@ const Input = () => {
                 return (
                   <tr>
                     <td className="py-2 border border-white w-32 text-center">
-                      <a href={item.site} target="_blank" className="hover:underline">
+                      <a
+                        href={item.site}
+                        target="_blank"
+                        className="hover:underline"
+                      >
                         {" "}
                         {item.site}
                       </a>

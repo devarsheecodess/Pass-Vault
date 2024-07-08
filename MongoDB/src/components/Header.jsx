@@ -2,13 +2,13 @@ import React from "react";
 import "../index.css"; // or wherever your Tailwind CSS file is
 
 const Header = () => {
-    const handleButton = () => {
-        window.open("https://github.com/devarsheecodess", "_blank")
-    }
+  const handleButton = () => {
+    window.open("https://github.com/devarsheecodess", "_blank");
+  };
 
-    const handleLogo = () => {
-        window.location.reload()
-    }
+  const handleLogo = () => {
+    window.location.reload();
+  };
 
   return (
     <header>
@@ -26,18 +26,17 @@ const Header = () => {
           </a>
           <div class="flex items-center lg:order-2">
             <button
-                onClick={handleButton}
-                className="bg-slate-900 p-3 text-white rounded-lg hover:bg-slate-700"
+              onClick={handleButton}
+              className="bg-slate-900 p-3 text-white rounded-lg hover:bg-slate-700"
             >
-                <i class="fa-brands fa-github mr-3"></i>
-                Admin
+              <i class="fa-brands fa-github mr-3"></i>
+              Admin
             </button>
           </div>
           <div
             class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
             id="mobile-menu-2"
-          >
-          </div>
+          ></div>
         </div>
       </nav>
     </header>
