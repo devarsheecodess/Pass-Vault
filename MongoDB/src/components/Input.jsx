@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const Input = () => {
   const [form, setForm] = useState({ site: "", username: "", password: "" });
@@ -24,10 +24,10 @@ const Input = () => {
     setPasswordArray([...passwordArray, newPassword]);
 
     try {
-      await fetch("http://localhost:3000/", { 
-        method: "POST", 
-        body: JSON.stringify(newPassword), 
-        headers: { "Content-Type": "application/json" } 
+      await fetch("http://localhost:3000/", {
+        method: "POST",
+        body: JSON.stringify(newPassword),
+        headers: { "Content-Type": "application/json" },
       });
       console.log("Password saved");
       setForm({ site: "", username: "", password: "" });
@@ -42,10 +42,10 @@ const Input = () => {
 
   const handleEdit = async (id) => {
     try {
-      await fetch("http://localhost:3000/", { 
-        method: "DELETE", 
-        body: JSON.stringify({ id }), 
-        headers: { "Content-Type": "application/json" } 
+      await fetch("http://localhost:3000/", {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+        headers: { "Content-Type": "application/json" },
       });
       console.log("Editing password with id ", id);
       setForm({ ...passwordArray.find((item) => item.id === id), id });
@@ -59,10 +59,10 @@ const Input = () => {
     let cf = confirm("Are you sure you want to delete this password?");
     if (cf) {
       try {
-        await fetch("http://localhost:3000/", { 
-          method: "DELETE", 
-          body: JSON.stringify({ id }), 
-          headers: { "Content-Type": "application/json" } 
+        await fetch("http://localhost:3000/", {
+          method: "DELETE",
+          body: JSON.stringify({ id }),
+          headers: { "Content-Type": "application/json" },
         });
         console.log("Deleting password with id ", id);
         setPasswordArray(passwordArray.filter((item) => item.id !== id));
@@ -73,7 +73,7 @@ const Input = () => {
   };
 
   return (
-    <>
+    <div className="mr-36 ml-36">
       <div className="flex flex-col justify-center items-center mt-10">
         <label
           for="input-group-1"
@@ -129,22 +129,23 @@ const Input = () => {
         </div>
 
         <button
-          className="bg-slate-900 p-3 mt-5 text-yellow-300 rounded-lg hover:bg-slate-700"
+          className="bg-slate-900 p-3 mt-5 text-white rounded-lg hover:bg-slate-700"
           onClick={savePassword}
         >
-          Add Password
+          <i class="fa-solid fa-plus mr-3"></i>
+          Add
         </button>
       </div>
 
       {/* Table  */}
-      <h3 className="font-bold mb-2 text-xl ml-32 mt-10">Your Passwords</h3>
+      <h3 className="font-bold mb-2 text-xl mt-10">Your Passwords</h3>
       {passwordArray.length === 0 && (
         <div className="ml-32">No passwords to show!</div>
       )}
       {passwordArray.length != 0 && (
         <div className="flex flex-col justify-center items-center">
           <table class="table-auto w-full ">
-            <thead className="bg-blue-950 text-white">
+            <thead className="dark:bg-gray-800 text-white">
               <tr>
                 <th>URL</th>
                 <th>Username</th>
@@ -157,7 +158,7 @@ const Input = () => {
                 return (
                   <tr>
                     <td className="py-2 border border-white w-32 text-center">
-                      <a href={item.site} target="_blank">
+                      <a href={item.site} target="_blank" className="hover:underline">
                         {" "}
                         {item.site}
                       </a>
@@ -169,8 +170,22 @@ const Input = () => {
                       {item.password}
                     </td>
                     <td className="py-2 border border-white w-32 text-center">
-                      <span onClick={()=>{handleEdit(item.id)}} className="cursor-pointer">Edit </span>
-                      <span onClick={()=>{handleDelete(item.id)}} className="cursor-pointer">Delete</span>
+                      <span
+                        onClick={() => {
+                          handleEdit(item.id);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </span>
+                      <span
+                        onClick={() => {
+                          handleDelete(item.id);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <i class="fa-solid fa-trash ml-5"></i>
+                      </span>
                     </td>
                   </tr>
                 );
@@ -179,7 +194,7 @@ const Input = () => {
           </table>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
