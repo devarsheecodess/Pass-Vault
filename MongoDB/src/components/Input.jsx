@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 const Input = () => {
   const [form, setForm] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setPasswordArray] = useState([]);
+  const [Flag, setFlag] = useState(true);
 
   const getPasswords = async () => {
     try {
@@ -20,6 +21,10 @@ const Input = () => {
   }, []);
 
   const savePassword = async () => {
+    if (form.site === "" || form.username === "" || form.password === "") {
+      alert("Please fill all the fields!");
+      return;
+    }
     const newPassword = { ...form, id: uuidv4() };
     setPasswordArray([...passwordArray, newPassword]);
 
@@ -72,6 +77,14 @@ const Input = () => {
     }
   };
 
+  const handleEye = () => {
+    setFlag(!Flag);
+  };
+
+  const handleCopy = (pass) => {
+    navigator.clipboard.writeText(pass);
+  };
+
   return (
     <div className="mr-36 ml-36">
       <div className="flex flex-col justify-center items-center mt-10">
@@ -116,9 +129,19 @@ const Input = () => {
         >
           Password
         </label>
-        <div class="flex">
+        <div class="relative mb-6">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 z-10">
+            <button onClick={handleEye} class="pointer-events-auto">
+              {Flag ? (
+                <i className="fa-solid fa-eye text-white"></i>
+              ) : (
+                <i className="fa-solid fa-eye-slash text-white"></i>
+              )}
+            </button>
+          </div>
+
           <input
-            type="text"
+            type={Flag ? "password" : "text"}
             id="website-admin"
             class="bg-gray-50 border w-72 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Password"
@@ -139,9 +162,7 @@ const Input = () => {
 
       {/* Table  */}
       <h3 className="font-bold mb-2 text-xl mt-10">Your Passwords</h3>
-      {passwordArray.length === 0 && (
-        <div className="ml-32">No passwords to show!</div>
-      )}
+      {passwordArray.length === 0 && <div>No passwords to show!</div>}
       {passwordArray.length != 0 && (
         <div className="flex flex-col justify-center items-center">
           <table class="table-auto w-full ">
@@ -171,7 +192,14 @@ const Input = () => {
                       {item.username}
                     </td>
                     <td className="py-2 border border-white w-32 text-center">
-                      {item.password}
+                      {"•".repeat(item.password.length)}
+                      <button
+                        onClick={() => {
+                          handleCopy(item.password);
+                        }}
+                      >
+                        <i className="fa-regular fa-copy ml-3"></i>
+                      </button>
                     </td>
                     <td className="py-2 border border-white w-32 text-center">
                       <span
